@@ -100,11 +100,13 @@ build_expat() {
 build_exiv2() {
 	LIBEXIV2_ARCHIVE="libexiv2-${LIBEXPAT_VERSION}.tar.gz"	
 
-	curl -L https://www.exiv2.org/builds/exiv2-${LIBEXIV2_VERSION}-Source.tar.gz --output ${LIBEXIV2_ARCHIVE}
+	curl -k -L https://github.com/Exiv2/exiv2/archive/refs/tags/v${LIBEXIV2_VERSION}.tar.gz --output ${LIBEXIV2_ARCHIVE}
+#	curl -L https://www.exiv2.org/builds/exiv2-${LIBEXIV2_VERSION}-Source.tar.gz --output ${LIBEXIV2_ARCHIVE}
 
 	tar -xvf ${LIBEXIV2_ARCHIVE}
 
-	pushd exiv2-${LIBEXIV2_VERSION}-Source
+	pushd exiv2-${LIBEXIV2_VERSION}
+#	pushd exiv2-${LIBEXIV2_VERSION}-Source
 
 	mkdir -p build
 	pushd build
@@ -139,7 +141,7 @@ build_halide() {
 	fi
 
 	pushd halide-src
-	git pull
+#	git pull
 
 	mkdir -p build
 	pushd build
@@ -148,7 +150,7 @@ build_halide() {
 
 	mkdir -p ${INSTALL_DIR}
 
-	cmake -DWITH_TUTORIALS=OFF -DWITH_TESTS=OFF -DWITH_PYTHON_BINDINGS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
+	cmake -DTARGET_WEBASSEMBLY=OFF -DWITH_TUTORIALS=OFF -DWITH_TESTS=OFF -DWITH_PYTHON_BINDINGS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
 
 	make -j${NUM_CORES}
 
